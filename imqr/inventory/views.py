@@ -30,3 +30,9 @@ view for specific product
 '''
 def productcreate():
     pass
+
+'''
+Login Function
+'''
+def login(req):
+    pass
