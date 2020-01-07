@@ -9,9 +9,9 @@ Home Page
 def index(request):
     #check user is authenticated or redirect him to login page
     if not request.user.is_authenticated:
-        return redirect('/login')
+        return render(request,template_name='inventory/index.html')
     else:   
-        return render(request,template_name='imqr/index.html')
+        return render(request,template_name='inventory/index.html')
 
 '''
 List all Product
@@ -36,3 +36,9 @@ Login Function
 '''
 def login(req):
     pass
+
+'''
+Register Function
+'''
+def register(request):
+    return render(request,template_name='inventory/register/register.html')
