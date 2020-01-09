@@ -1,38 +1,46 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.views.generic import CreateView
 
-# Create your views here.
-'''
-Home Page
-'''
-def index(request):
-    #check user is authenticated or redirect him to login page
-    if not request.user.is_authenticated:
-        return redirect('/login')
-    else:   
-        return render(request,template_name='imqr/index.html')
+from .models import Item
+from .forms import LoginForm, RegisterForm
 
-'''
-List all Product
-'''
-def productindex(request):
-    return HttpResponse('nej')
 
-'''
-List specific product
-'''
-def productview(request,pk):
-    return HttpResponse(str(pk))
+def login_view(request):
+    if request.method == "POST":
+        loginform = LoginForm(data=request.POST)
+        if loginform.is_valid():
+            cd = loginform.cleaned_data
+            user = authenticate(username=cd['email'], password=cd['password'])
+            if user is not None:
+                login(request, user)
 
-'''
-view for specific product
-'''
-def productcreate():
-    pass
+            else:
+                return HttpResponse("UnSuccessFully Login !!!")
+    else:
+        loginform = LoginForm()
+    if request.method == "GET":
+        return render(request, "inventory/registration/login.html", {"loginform": loginform})
 
-'''
-Login Function
-'''
-def login(req):
-    pass
+
+def register_view(request):
+    if request.method == "POST":
+        form = RegisterForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = RegisterForm()
+    return render(request, 'inventory/registration/register.html', {"form": form})
+
+
+class ItemCreateView(LoginRequiredMixin, CreateView):
+    model = Item
+    fields = ['name', 'serial_number', 'category', 'details']
+    success_url = '/items/create_item'
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)

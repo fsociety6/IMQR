@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load crispy_forms_tags %}
+<head>
+    <meta charset="UTF-8">
+    <title>Register Form</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+            integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
+            crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          crossorigin="anonymous">
+
+</head>
+<body class="container" style="text-align:center;border:1px solid red;padding:10px;">
+<div class="alert alert-info" style="text-align:center;display:inline-block">
+    Register
+</div>
+<div>
+    <form method="POST" style="width:80%;margin:0px auto">
+        {% csrf_token %}
+        {{form|crispy}}
+        <input type="hidden" name="next" value="{{next}}">
+        <div>
+            <a href="{% url 'login' %}">Already Have an Account?</a>
+        </div>
+        <input type="submit" name="Register" class="btn btn-success" value="REGISTER">
+    </form>
+</div>
+</body>
+</html>
