@@ -2,27 +2,28 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DeleteView
 
 from .models import Item
 from .forms import LoginForm, RegisterForm
 
 
-def login_view(request):
-    if request.method == "POST":
-        loginform = LoginForm(data=request.POST)
-        if loginform.is_valid():
-            cd = loginform.cleaned_data
-            user = authenticate(username=cd['email'], password=cd['password'])
-            if user is not None:
-                login(request, user)
-
-            else:
-                return HttpResponse("UnSuccessFully Login !!!")
-    else:
-        loginform = LoginForm()
-    if request.method == "GET":
-        return render(request, "inventory/registration/login.html", {"loginform": loginform})
+# def login_view(request):
+#     if request.method == "POST":
+#         form = LoginForm(data=request.POST)
+#
+#         if form.is_valid():
+#             cd = form.cleaned_data
+#             print(form.cleaned_data)
+#             user = authenticate(username=cd['username'], password=cd['password'])
+#
+#             if user is not None:
+#                 login(request, user)
+#                 return render(request, "inventory/item_form.html")
+#     else:
+#         loginform = LoginForm()
+#     return render(request, "inventory/registration/login.html", {"loginform": loginform})
 
 
 def register_view(request):
@@ -44,3 +45,14 @@ class ItemCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
+
+
+class ItemDeleteView(LoginRequiredMixin, DeleteView):
+    model = Item
+    success_url = reverse_lazy("login")
+
+    def test_func(self):
+        post = self.get_object()  # This will return the post which we are going to update
+        if post.author == self.request.user:
+            return True
+        return False

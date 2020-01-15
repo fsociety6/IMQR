@@ -22,8 +22,8 @@
 </div>
 <div>
     <form method="POST" style="width:80%;margin:0px auto">
-        {% csrf_token %}
         {{form|crispy}}
+        {% csrf_token %}
         <input type="hidden" name="next" value="{{next}}">
         <div>
             <a href="{% url 'login' %}">Already Have an Account?</a>
