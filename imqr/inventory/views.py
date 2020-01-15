@@ -59,8 +59,6 @@ class ItemDeleteView(LoginRequiredMixin, DeleteView):
             return True
         return False
 
+@login_required(login_url='/login')
 def dashboard(request):
-    if request.user.is_authenticated:
-        return render(request, 'imqr/index.html')
-    else :
-        return redirect('login/')
+    return render(request, 'imqr/index.html')
