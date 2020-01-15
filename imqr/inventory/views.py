@@ -7,24 +7,26 @@ from django.views.generic import CreateView, DeleteView
 
 from .models import Item
 from .forms import LoginForm, RegisterForm
+from django.contrib.auth.decorators import login_required, permission_required
 
 
-# def login_view(request):
-#     if request.method == "POST":
-#         form = LoginForm(data=request.POST)
-#
-#         if form.is_valid():
-#             cd = form.cleaned_data
-#             print(form.cleaned_data)
-#             user = authenticate(username=cd['username'], password=cd['password'])
-#
-#             if user is not None:
-#                 login(request, user)
-#                 return render(request, "inventory/item_form.html")
-#     else:
-#         loginform = LoginForm()
-#     return render(request, "inventory/registration/login.html", {"loginform": loginform})
+def login_view(request):
+    if request.method == "POST":
+        form = LoginForm(data=request.POST)
 
+        if form.is_valid():
+            cd = form.cleaned_data
+            print(form.cleaned_data)
+            user = authenticate(username=cd['username'], password=cd['password'])
+
+            if user is not None:
+                login(request, user)
+                return redirect('/dashboard/')
+    else:
+        if request.user.is_authenticated:
+            return redirect('/dashboard');
+        loginform = LoginForm()
+    return render(request, "registration/login.html", {"loginform": loginform})
 
 def register_view(request):
     if request.method == "POST":
@@ -56,3 +58,9 @@ class ItemDeleteView(LoginRequiredMixin, DeleteView):
         if post.author == self.request.user:
             return True
         return False
+
+def dashboard(request):
+    if request.user.is_authenticated:
+        return render(request, 'imqr/index.html')
+    else :
+        return redirect('login/')

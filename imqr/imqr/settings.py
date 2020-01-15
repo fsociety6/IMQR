@@ -121,5 +121,5 @@ STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # Login Redirect Url
-LOGIN_REDIRECT_URL = reverse_lazy("item_create")
-LOGIN_URL = 'login'
+# LOGIN_REDIRECT_URL = reverse_lazy("item_create")
+# LOGIN_URL = 'login'
