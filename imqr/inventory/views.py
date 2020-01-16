@@ -1,3 +1,5 @@
+from time import timezone
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
@@ -57,7 +59,7 @@ def ItemCreateView(request):
         if serial_number == None:
             redirect('dashboard/')
         return render(request, 'imqr/item_create_form.html',
-                      {'serial_number': serial_number, 'product_category': product_category})
+                      {'serial_number': serial_number, 'product_category': product_category, 'date': timezone.now})
 
     if request.method == "POST":
         category_object_id = request.POST.get('category')
