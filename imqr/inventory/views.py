@@ -58,11 +58,17 @@ def ItemCreateView(request):
                       {'serial_number': serial_number, 'product_category': product_category})
 
     if request.method == "POST":
-        Item.objects.create()
+        category_object_id = request.POST.get('category')
+        item = Item.objects.create(serial_number=request.POST.get('serial_number'), details=request.POST.get('details'),
+                                   name=request.POST.get('product_name'),
+                                   category=Category.objects.get(category_id=category_object_id))
+        return redirect('/item/' + str(item.id))
 
 
-    return HttpResponse('404 Error')
-
+def ItemDetailView(request, pk):
+    item = get_object_or_404(Item, id=pk)
+    service = Service.objects.filter(item_id=pk)
+    return render(request, 'imqr/item_detail.html', {'item': item, 'service': service})
 
 
 # for creating the service.

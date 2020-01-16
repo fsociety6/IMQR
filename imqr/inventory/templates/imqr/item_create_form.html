@@ -29,45 +29,43 @@
         </div>
         <div class="form-group">
             <label for="product_category">Select Category:</label>
-            <select class="form-control" id="product_category">
+            <select class="form-control" id="product_category" name="category">
                 {% for category in product_category %}
-                <option>{{category.category_name}}</option>
+                <option value="{{category.category_id}}">{{category.category_name}}</option>
                 {% endfor %}
             </select>
         </div>
         <div class="form-group">
             <label for="details">Details:</label>
-            <textarea class="form-control rounded-0" id="details" rows="5"></textarea>
+            <textarea class="form-control rounded-0" id="details" rows="5" name="details"></textarea>
         </div>
-        <button type='button' class="btn btn-primary" onclick="ValidateData()">Submit</button>
+        <button type='submit' class="btn btn-primary">Submit</button>
     </form>
 </div>
 </body>
 
-<script>
-function ValidateData(){
-var option_category = document.getElementById("product_category");
-var option = option_category.options[option_category.selectedIndex].value;
+<!--<script>-->
+<!--function ValidateData(){-->
+<!--var option_category = document.getElementById("product_category");-->
+<!--var option = option_category.options[option_category.selectedIndex].value;-->
 
-var Name= document.getElementById("name");
-var serial= document.getElementById("Serial");
-var Details= document.getElementById("details");
+<!--var Name= document.getElementById("name");-->
+<!--var serial= document.getElementById("Serial");-->
+<!--var Details= document.getElementById("details");-->
 
-var jsonObject = [{"name":Name.value, "serial":serial.value, "option":option.value, "details":Details.value];
-$.ajax({
-        type:"GET",
-        url:"/item/store/",
-        dataType: "json",
-        data:{
-            'parameters':JSON.stringify(jsonObject),
-<!--            'csrfmiddlewaretoken':$("input[name=csrfmiddlewaretoken]").val()-->
-        }
-});
+<!--var jsonObject = [{"name":Name.value, "serial":serial.value, "option":option.value, "details":Details.value];-->
+<!--$.ajax({-->
+<!--        type:"GET",-->
+<!--        url:"/item/store/",-->
+<!--        dataType: "json",-->
+<!--        data:{-->
+<!--            'parameters':JSON.stringify(jsonObject),-->
+<!--&lt;!&ndash;            'csrfmiddlewaretoken':$("input[name=csrfmiddlewaretoken]").val()&ndash;&gt;-->
+<!--        }-->
+<!--});-->
 
-}
-
-
+<!--}-->
 
 
-</script>
+<!--</script>-->
 </html>

@@ -17,16 +17,9 @@ urlpatterns = [
     # url(r'^items/create_item', views.ItemCreateView.as_view(), name="item_create"),
     path('item/create/', views.ItemCreateView, name="item_create"),
 
-    # for storing the item data into the database
-    path('item/store/', views.ItemStoreView, name='item_store'),
+    path('item/<int:pk>/', views.ItemDetailView, name="item_detail"),
 
     # create services url
     url('^item/service/(?P<item_id>\d+)/', views.CreateServiceView, name="item_service"),
 
-    # for storing the service data into the database
-    path('service/store/', views.ServiceStoreView, name='service_store'),
-
-    # Item Delete
-    url(r'^delete_item/(?P<pk>[0-9]+)/item/$',
-        views.ItemDeleteView.as_view(template_name="inventory/item_confirm_delete.html"), name='delete_item'),
 ]
