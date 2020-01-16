@@ -411,11 +411,11 @@
     <script src="/static/sbadmin/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="/static/sbadmin/vendor/chart.js/Chart.min.js"></script>
+    {% comment %} <script src="/static/sbadmin/vendor/chart.js/Chart.min.js"></script> {% endcomment %}
 
     <!-- Page level custom scripts -->
-    <script src="/static/sbadmin/js/demo/chart-area-demo.js"></script>
-    <script src="/static/sbadmin/js/demo/chart-pie-demo.js"></script>
+    {% comment %} <script src="/static/sbadmin/js/demo/chart-area-demo.js"></script>
+    <script src="/static/sbadmin/js/demo/chart-pie-demo.js"></script> {% endcomment %}
 
   <!-- Bootstrap core JavaScript-->
   <script src="/static/sbadmin/vendor/jquery/jquery.min.js"></script>
@@ -425,23 +425,9 @@
 
   <!-- Custom scripts for all pages-->
   <script src="/static/sbadmin/js/sb-admin-2.min.js"></script>
-  
-<script type="text/javascript">
-      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
-      scanner.addListener('scan', function (content) {
-        alert(content);
-      });
-      Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-          scanner.start(cameras[0]);
-        } else {
-          console.error('No cameras found.');
-        }
-      }).catch(function (e) {
-        console.error(e);
-      });
-    </script>
 
+{% block script %}
+{% endblock script %}
 
 </body>
 

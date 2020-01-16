@@ -80,9 +80,6 @@ def CreateServiceView(request, item_id):
     return HttpResponse('404 Error')
 
 
-def ServiceStoreView(request):
-    if request.method == "POST":
-        Service.objects.create()
 
 
 class ItemDeleteView(LoginRequiredMixin, DeleteView):
@@ -99,5 +96,9 @@ class ItemDeleteView(LoginRequiredMixin, DeleteView):
 @login_required(login_url='/login')
 def dashboard(request):
     # For Getting Service History of the Current Logged In User.
-    Service_History = Service.objects.filter(updated_by=request.user.username)
-    return render(request, 'imqr/index.html', {'Service_History': Service_History})
+    Service_History = Service.objects.filter(updated_by=request.user)
+    return render(request, 'imqr/index.html',{'Service_History': Service_History})
+
+def scancode(request):
+    if request.method == "GET":
+        return render(request,'imqr/scan.html')
