@@ -54,6 +54,8 @@ def ItemCreateView(request):
         product_category = Category.objects.all()
         serial_number = request.GET.get(
             'serial_number')  # Replace the serial_number parameter with the keyword specified in the POST request.
+        if serial_number == None:
+            redirect('dashboard/')
         return render(request, 'imqr/item_create_form.html',
                       {'serial_number': serial_number, 'product_category': product_category})
 
@@ -68,7 +70,9 @@ def ItemCreateView(request):
 def ItemDetailView(request, pk):
     item = get_object_or_404(Item, id=pk)
     service = Service.objects.filter(item_id=pk)
-    return render(request, 'imqr/item_detail.html', {'item': item, 'service': service})
+    last_updated_service = service.order_by('-date_of_service')
+    return render(request, 'imqr/item_detail.html',
+                  {'item': item, 'service': service, 'last_updated_service': last_updated_service})
 
 
 # for creating the service.
@@ -78,11 +82,6 @@ def CreateServiceView(request, item_id):
         return render(request, 'imqr/service_create_form.html',
                       {'product_object': product_object})
     return HttpResponse('404 Error')
-
-
-def ServiceStoreView(request):
-    if request.method == "POST":
-        Service.objects.create()
 
 
 class ItemDeleteView(LoginRequiredMixin, DeleteView):
@@ -99,5 +98,5 @@ class ItemDeleteView(LoginRequiredMixin, DeleteView):
 @login_required(login_url='/login')
 def dashboard(request):
     # For Getting Service History of the Current Logged In User.
-    Service_History = Service.objects.filter(updated_by=request.user.username)
+    Service_History = Service.objects.filter(updated_by=request.user)
     return render(request, 'imqr/index.html', {'Service_History': Service_History})
