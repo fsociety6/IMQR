@@ -59,7 +59,7 @@ def ItemCreateView(request):
         if serial_number == None:
             redirect('dashboard/')
         return render(request, 'imqr/item_create_form.html',
-                      {'serial_number': serial_number, 'product_category': product_category, 'date': timezone.now})
+                      {'serial_number': serial_number, 'product_category': product_category})
 
     if request.method == "POST":
         category_object_id = request.POST.get('category')
@@ -73,6 +73,7 @@ def ItemDetailView(request, pk):
     item = get_object_or_404(Item, id=pk)
     service = Service.objects.filter(item_id=pk)
     last_updated_service = service.order_by('-date_of_service')
+    print(last_updated_service)
     return render(request, 'imqr/item_detail.html',
                   {'item': item, 'service': service, 'last_updated_service': last_updated_service})
 
@@ -86,24 +87,24 @@ def CreateServiceView(request, item_id):
     return HttpResponse('404 Error')
 
 
-class ItemDeleteView(LoginRequiredMixin, DeleteView):
-    model = Item
-    success_url = reverse_lazy("login")
-
-    def test_func(self):
-        post = self.get_object()  # This will return the post which we are going to update
-        if post.author == self.request.user:
-            return True
-        return False
+# class ItemDeleteView(LoginRequiredMixin, DeleteView):
+#     model = Item
+#     success_url = reverse_lazy("login")
+#
+#     def test_func(self):
+#         post = self.get_object()  # This will return the post which we are going to update
+#         if post.author == self.request.user:
+#             return True
+#         return False
 
 
 @login_required(login_url='/login')
 def dashboard(request):
     # For Getting Service History of the Current Logged In User.
     Service_History = Service.objects.filter(updated_by=request.user)
-    return render(request, 'imqr/index.html',{'Service_History': Service_History})
+    return render(request, 'imqr/index.html', {'Service_History': Service_History})
+
 
 def scancode(request):
     if request.method == "GET":
-        return render(request,'imqr/scan.html')
-
+        return render(request, 'imqr/scan.html')

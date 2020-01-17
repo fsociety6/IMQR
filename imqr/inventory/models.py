@@ -30,10 +30,8 @@ class Service(models.Model):
     id = models.BigAutoField(primary_key=True)
     item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
     details = models.TextField()
-    date_of_service = models.DateTimeField(auto_now_add=True)
+    date_of_service = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def str(self):
         return self.item_id.name + " " + self.item_id.serial_number + "is Updated On :" + self.updated_by
-
-
