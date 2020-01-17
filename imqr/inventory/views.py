@@ -1,4 +1,4 @@
-from time import timezone
+from django.utils import timezone
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -59,13 +59,14 @@ def ItemCreateView(request):
         if serial_number == None:
             redirect('dashboard/')
         return render(request, 'imqr/item_create_form.html',
-                      {'serial_number': serial_number, 'product_category': product_category, 'date': timezone.now})
+                      {'serial_number': serial_number, 'product_category': product_category})
 
     if request.method == "POST":
         category_object_id = request.POST.get('category')
         item = Item.objects.create(serial_number=request.POST.get('serial_number'), details=request.POST.get('details'),
                                    name=request.POST.get('product_name'),
-                                   category=Category.objects.get(category_id=category_object_id))
+                                   category=Category.objects.get(category_id=category_object_id),date_of_installation=timezone.now())
+        servcie=Service.objects.create(item_id=item,details='Item Created',date_of_service=timezone.now(),updated_by=request.user)                    
         return redirect('/item/' + str(item.id))
 
 
@@ -73,8 +74,9 @@ def ItemDetailView(request, pk):
     item = get_object_or_404(Item, id=pk)
     service = Service.objects.filter(item_id=pk)
     last_updated_service = service.order_by('-date_of_service')
+    f=last_updated_service.first()
     return render(request, 'imqr/item_detail.html',
-                  {'item': item, 'service': service, 'last_updated_service': last_updated_service})
+                  {'item': item, 'service': service, 'last_updated_service': f})
 
 
 # for creating the service.
