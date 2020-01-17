@@ -109,3 +109,7 @@ def scancode(request):
     if request.method == "GET":
         return render(request,'imqr/scan.html')
 
+@login_required(login_url='/login')
+def mainview(request):
+    return redirect('/dashboard')
+
