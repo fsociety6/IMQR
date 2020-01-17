@@ -23,4 +23,6 @@ urlpatterns = [
     path('item/service/<int:pk>/', views.CreateServiceView, name="item_service"),
 
     path('scan/qr/', views.scancode, name='scancode'),
+
+    path('category/create/', views.CategoryCreateView, name='category_create'),
 ]
