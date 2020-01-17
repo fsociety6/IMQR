@@ -33,6 +33,14 @@
             <label for="details">Details:</label>
             <textarea class="form-control rounded-0" id="details" rows="5" name="details" readonly>{{item.details}}</textarea>
         </div>
+        <div class="form-group text-center">
+            <label for="details">Date Of Installation:</label><br>
+            <lable class='h5' id="details ">{{item.date_of_installation}}</label>
+        </div>
+        <div class="form-group text-center">
+            <label for="details">Last Service:</label><br>
+            <lable class='h5' id="details ">{{last_updated_service.date_of_service}}</label>
+        </div>
         <button type='submit' class="btn btn-primary">Edit</button>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
   View Service
