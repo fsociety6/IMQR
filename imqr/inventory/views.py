@@ -121,3 +121,8 @@ def CategoryCreateView(request):
         Category.objects.create(category_name=request.POST.get('category_name'), category_created_by=request.user)
     return render(request, 'imqr/category_create.html')
 
+def productlist(request):
+    if request.method == "GET":
+        product_category = Category.objects.all()
+    return render(request, 'imqr/productlist.html',{'product_category': product_category})
+
