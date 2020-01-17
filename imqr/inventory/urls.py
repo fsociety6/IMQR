@@ -25,6 +25,6 @@ urlpatterns = [
 
     path('scan/qr/',views.scancode,name='scancode'),
     path('',views.mainview),
-    path('/product',views.productlist),
+    path('product/',views.productlist),
     path('category/create/', views.CategoryCreateView, name='category_create'),
 ]

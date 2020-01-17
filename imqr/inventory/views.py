@@ -54,8 +54,7 @@ def register_view(request):
 def ItemCreateView(request):
     if request.method == "GET":
         product_category = Category.objects.all()
-        serial_number = request.GET.get(
-            'serial_number')  # Replace the serial_number parameter with the keyword specified in the POST request.
+        serial_number = request.GET.get('serial_number')  # Replace the serial_number parameter with the keyword specified in the POST request.
 
         item_list = []
         for c in product_category:
@@ -64,6 +63,9 @@ def ItemCreateView(request):
 
         if serial_number == None:
             redirect('dashboard/')
+        item=Item.objects.filter(serial_number=serial_number)
+        if item.exists():
+            return redirect('/item/'+str(item[0].id)+'/')
         return render(request, 'imqr/item_create_form.html',
                       {'serial_number': serial_number, 'product_category': product_category,
                        'item_count_from_category': item_list_count})
@@ -89,11 +91,13 @@ def ItemDetailView(request, pk):
 
 
 # for creating the service.
-def CreateServiceView(request, item_id):
-    if request.method == "GET":
-        product_object = get_object_or_404(Item, category_id=item_id)
-        return render(request, 'imqr/service_create_form.html',
-                      {'product_object': product_object})
+def CreateServiceView(request, pk):
+    if request.method == "POST":
+        item = get_object_or_404(Item,id=pk)
+        details = request.POST.get('detail')
+        servcie = Service.objects.create(item_id=item, details=details, date_of_service=timezone.now(),
+                                         updated_by=request.user)
+        return redirect('/item/'+str(item.id))
     return HttpResponse('404 Error')
 
 
@@ -130,6 +134,6 @@ def CategoryCreateView(request):
 
 def productlist(request):
     if request.method == "GET":
-        product_category = Category.objects.all()
-    return render(request, 'imqr/productlist.html',{'product_category': product_category})
+        products = Item.objects.all()
+    return render(request, 'imqr/productlist.html',{'products': products})
 

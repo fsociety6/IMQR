@@ -23,7 +23,7 @@
 
 </head>
 
-<body id="page-top">
+<body id="page-top" class='sidebar-toggled'>
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -154,10 +154,10 @@
 
             </nav> {% endcomment %}
              <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-primary sidebar toggled sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+       <a class="sidebar-brand d-flex align-items-center  justify-content-center" href="/">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-qrcode"></i>
             </div>
@@ -214,8 +214,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-               aria-expanded="true" aria-controls="collapseUtilities">
+            <a class="nav-link collapsed" href="/scan/qr" >
                 <i class="fas fa-search"></i>
                 <span>Scanner</span>
             </a>
@@ -339,7 +338,7 @@
     <!-- Custom scripts for all pages-->
     <script src="/static/sbadmin/js/sb-admin-2.min.js"></script>
 
-    
+     <script src="/static/jquery-qrcode-0.17.0.min.js"></script>
 <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>  <!-- Core plugin JavaScript-->
 
   <!-- Custom scripts for all pages-->
