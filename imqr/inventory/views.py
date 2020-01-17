@@ -56,10 +56,17 @@ def ItemCreateView(request):
         product_category = Category.objects.all()
         serial_number = request.GET.get(
             'serial_number')  # Replace the serial_number parameter with the keyword specified in the POST request.
+
+        item_list = []
+        for c in product_category:
+            item_list_count = c.category.all().count()  # it will return all the items which are of the current category c (count)
+            item_list.append(item_list_count)
+
         if serial_number == None:
             redirect('dashboard/')
         return render(request, 'imqr/item_create_form.html',
-                      {'serial_number': serial_number, 'product_category': product_category})
+                      {'serial_number': serial_number, 'product_category': product_category,
+                       'item_count_from_category': item_list_count})
 
     if request.method == "POST":
         category_object_id = request.POST.get('category')

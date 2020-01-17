@@ -15,7 +15,7 @@ class Item(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=1000)
     serial_number = models.CharField(max_length=1000)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name="category", on_delete=models.CASCADE)
     details = models.TextField(blank=True, null=True)
     date_of_installation = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
