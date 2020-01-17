@@ -20,9 +20,11 @@ urlpatterns = [
     path('item/<int:pk>/', views.ItemDetailView, name="item_detail"),
 
     # create services url
-    url('^item/service/(?P<item_id>\d+)/', views.CreateServiceView, name="item_service"),
+    path('item/service/<int:pk>/', views.CreateServiceView, name="item_service"),
+
 
     path('scan/qr/',views.scancode,name='scancode'),
     path('',views.mainview)
 
+    path('category/create/', views.CategoryCreateView, name='category_create'),
 ]

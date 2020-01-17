@@ -65,8 +65,10 @@ def ItemCreateView(request):
         category_object_id = request.POST.get('category')
         item = Item.objects.create(serial_number=request.POST.get('serial_number'), details=request.POST.get('details'),
                                    name=request.POST.get('product_name'),
-                                   category=Category.objects.get(category_id=category_object_id),date_of_installation=timezone.now())
-        servcie=Service.objects.create(item_id=item,details='Item Created',date_of_service=timezone.now(),updated_by=request.user)                    
+                                   category=Category.objects.get(category_id=category_object_id),
+                                   date_of_installation=timezone.now())
+        servcie = Service.objects.create(item_id=item, details='Item Created', date_of_service=timezone.now(),
+                                         updated_by=request.user)
         return redirect('/item/' + str(item.id))
 
 
@@ -74,7 +76,7 @@ def ItemDetailView(request, pk):
     item = get_object_or_404(Item, id=pk)
     service = Service.objects.filter(item_id=pk)
     last_updated_service = service.order_by('-date_of_service')
-    f=last_updated_service.first()
+    f = last_updated_service.first()
     return render(request, 'imqr/item_detail.html',
                   {'item': item, 'service': service, 'last_updated_service': f})
 
@@ -88,28 +90,34 @@ def CreateServiceView(request, item_id):
     return HttpResponse('404 Error')
 
 
-class ItemDeleteView(LoginRequiredMixin, DeleteView):
-    model = Item
-    success_url = reverse_lazy("login")
-
-    def test_func(self):
-        post = self.get_object()  # This will return the post which we are going to update
-        if post.author == self.request.user:
-            return True
-        return False
+# class ItemDeleteView(LoginRequiredMixin, DeleteView):
+#     model = Item
+#     success_url = reverse_lazy("login")
+#
+#     def test_func(self):
+#         post = self.get_object()  # This will return the post which we are going to update
+#         if post.author == self.request.user:
+#             return True
+#         return False
 
 
 @login_required(login_url='/login')
 def dashboard(request):
     # For Getting Service History of the Current Logged In User.
     Service_History = Service.objects.filter(updated_by=request.user)
-    return render(request, 'imqr/index.html',{'Service_History': Service_History})
+    return render(request, 'imqr/index.html', {'Service_History': Service_History})
+
 
 def scancode(request):
     if request.method == "GET":
-        return render(request,'imqr/scan.html')
+        return render(request, 'imqr/scan.html')
 
 @login_required(login_url='/login')
 def mainview(request):
     return redirect('/dashboard')
+
+def CategoryCreateView(request):
+    if request.method == "POST":
+        Category.objects.create(category_name=request.POST.get('category_name'), category_created_by=request.user)
+    return render(request, 'imqr/category_create.html')
 
