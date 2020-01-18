@@ -69,7 +69,7 @@
 <div class="row">
 
             <!-- Area Chart -->
-            <div class="col-xl-8 col-lg-7">
+            <div class="col-xl-7 col-lg-7">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -89,8 +89,28 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  <div class="chart-area"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                    <canvas id="myAreaChart" style="display: block; width: 217px; height: 160px;" width="569" height="420" class="chartjs-render-monitor"></canvas>
+                <table class="table text-center table-striped table-responsive" >
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Item Name</th>
+      <th scope="col">Service Details</th>
+      <th scope="col">Date of Service</th>
+      <th scope="col">Date Of Installation</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for service in services %}
+    <tr>
+      <th scope="row">{{service.id}}</th>
+      <td class=''>{{service.item_id}}</td>
+      <td>{{service.details }}</td>
+      <td>{{service.date_of_service}}</td>
+      <td>{{service.item_id.date_of_installation}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
                   </div>
                 </div>
               </div>

@@ -26,7 +26,7 @@ SECRET_KEY = '8b7_#&^9ig0kbn7jqcd5-r-826$p130y_wjg0p#eqxxn2szmkf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'inventory.apps.InventoryConfig'
+    'inventory.apps.InventoryConfig',
+    'pwa',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,31 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 # Login Redirect Url
 # LOGIN_REDIRECT_URL = reverse_lazy("item_create")
 # LOGIN_URL = 'login'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+
+PWA_APP_NAME = 'CodeWare'
+PWA_APP_DESCRIPTION = "A simple inventory management system."
+PWA_APP_THEME_COLOR = '#0A0302'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/static'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/icon.png',
+        'sizes': '192x192'
+    }
+]
+PWA_APP_SPLASH_SCREEN = [
+    {
+        'src': '/static/icon.png',
+        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+    }
+]
+PWA_APP_DIR = 'inventory'
+PWA_APP_LANG = 'en-US'

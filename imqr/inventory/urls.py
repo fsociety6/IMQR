@@ -12,7 +12,7 @@ urlpatterns = [
 
     url(r'^register/$', views.register_view, name="register"),
     path('dashboard/', views.dashboard, name="dashboard"),
-
+    path('', views.dashboard, name="dashbo"),
     # create items url
     # url(r'^items/create_item', views.ItemCreateView.as_view(), name="item_create"),
     path('item/create/', views.ItemCreateView, name="item_create"),
@@ -24,7 +24,9 @@ urlpatterns = [
 
 
     path('scan/qr/',views.scancode,name='scancode'),
-    path('',views.mainview),
+
+    url('', include('pwa.urls')),
     path('product/',views.productlist),
     path('category/create/', views.CategoryCreateView, name='category_create'),
+    path('logout',views.logout)
 ]

@@ -116,16 +116,14 @@ def CreateServiceView(request, pk):
 def dashboard(request):
     # For Getting Service History of the Current Logged In User.
     Service_History = Service.objects.filter(updated_by=request.user)
-    return render(request, 'imqr/index.html', {'Service_History': Service_History})
+    return render(request, 'imqr/index.html', {'services': Service_History})
 
 
 def scancode(request):
     if request.method == "GET":
         return render(request, 'imqr/scan.html')
 
-@login_required(login_url='/login')
-def mainview(request):
-    return redirect('/dashboard')
+
 
 def CategoryCreateView(request):
     if request.method == "POST":
@@ -137,3 +135,7 @@ def productlist(request):
         products = Item.objects.all()
     return render(request, 'imqr/productlist.html',{'products': products})
 
+def logout(request):
+    if request.method=="GET":
+        logout(request)
+    return redirect('/login')
