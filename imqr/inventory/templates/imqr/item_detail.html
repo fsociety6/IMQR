@@ -1,0 +1,117 @@
+{% extends 'imqr/base.html' %}
+{% block body %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-12 col-lg-7">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div
+          class="card-header text-center py-3 d-flex flex-row align-items-center justify-content-between"
+        >
+          <h6 class="m-0 font-weight-bold text-primary text-center">Item Details</h6>
+          
+        </div>
+        <!-- Card Body -->
+        <div class="card-body text-center">
+         <form class="user" method='POST'>
+                    {% csrf_token %}
+          <div class="container-fluid">
+          <div class="qr"></div>
+          </div>
+        <div class="form-group">
+            <label for="name">Product Name</label>
+            <input type="text" class="form-control" id="nam" name="product_name"
+                   placeholder="Enter Product Name" value={{item.name}} readonly>
+        </div>
+        <div class="form-group">
+            <label for="Serial">Product Serial</label>
+            <input type="text" class="form-control" id="Serial" name="serial_number" value="{{item.serial_number}}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="product_category">Select Category:</label>
+            <input class="form-control" id="product_category" name="category" value={{item.category}} readonly>
+            
+        </div>
+        <div class="form-group">
+            <label for="details">Details:</label>
+            <textarea class="form-control rounded-0" id="details" rows="5" name="details" readonly>{{item.details}}</textarea>
+        </div>
+        <div class="form-group text-center">
+            <label for="details">Date Of Installation:</label><br>
+            <lable class='h5' id="details ">{{item.date_of_installation}}</label>
+        </div>
+        <div class="form-group text-center">
+            <label for="details">Last Service:</label><br>
+            <lable class='h5' id="details ">{{last_updated_service.date_of_service}}</label>
+        </div>
+        <button type='submit' class="btn btn-primary">Edit</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  View Service
+</button>        <button type='submit' class="btn btn-primary">Delete</button>
+                  </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Service History</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Service By</th>
+      <th scope="col">Date of service</th>
+      <th scope="col">Details</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for services in service %}
+  <tr>
+      <th scope="row">{{services.id}}</th>
+      <td>{{services.updated_by.username}}</td>
+      <td>{{services.date_of_service}}</td>
+      <td>{{services.details}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table></div>
+      </div>
+      <div class="modal-footer">
+      <div class="row">
+      <div class="col-12">
+      <form method='POST' action='/item/service/{{item.id}}/' >
+      {% csrf_token %}
+      <div class="container ">
+      <div class="form-group">
+            <input type="text" class="form-control" id="name" name="detail"
+                   placeholder="Enter Details of services" required>
+        </div></div>
+        </div>
+        </div>
+        <button type="sumbit" class="btn btn-primary">Update Service</button>
+       </form> 
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock body %}
+
+{% block script %}
+ <script>
+  $(document).ready(function () {
+       $('.qr').qrcode({ text:{{item.serial_number}}, size: 150});
+  });
+
+ </script>
+{% endblock script %}

@@ -13,10 +13,10 @@ class Category(models.Model):
 
 class Item(models.Model):
     id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=1000)
     serial_number = models.CharField(max_length=1000)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    details = models.TextField(blank=False, null=False)
+    category = models.ForeignKey(Category, related_name="category", on_delete=models.CASCADE)
+    details = models.TextField(blank=True, null=True)
     date_of_installation = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
 
@@ -28,7 +28,7 @@ class Service(models.Model):
     id = models.BigAutoField(primary_key=True)
     item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
     details = models.TextField()
-    date_of_service = models.DateTimeField(auto_now_add=True)
+    date_of_service = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def str(self):

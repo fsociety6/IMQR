@@ -1,0 +1,63 @@
+{% extends 'imqr/base.html' %}
+
+{% block body %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-12 col-lg-7">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div
+          class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+        >
+          <h6 class="m-0 font-weight-bold text-primary">Product List</h6>
+         
+        </div>
+        <!-- Card Body -->
+        <div class="card-body ">
+        {% comment %} <div class="container-fluid"> {% endcomment %}
+        <table class="table text-center table-striped table-responsive" style='  width: 75%;
+    margin: 0 auto !important;'>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">QR code</th>
+      <th scope="col">Item Name</th>
+      <th scope="col">Item Details</th>
+      <th scope="col">Date Of Installation</th>
+      <th scope="col">Category</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for product in products %}
+    <tr>
+      <th scope="row">{{product.id}}</th>
+      <td class='{{product.serial_number }}'></td>
+      <td>{{product.name}}</td>
+      <td>{{product.details}}</td>
+      <td>{{product.date_of_installation}}</td>
+      <td>{{product.category}}</td>
+      <td><a class='btn btn-sm btn-primary' href='/item/{{product.id}}'>View</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+        {% comment %} </div> {% endcomment %}
+      </div>
+    </div>
+  </div>
+  </div>
+{% endblock body %}
+
+
+{% block script %}
+ {% for product in products %}
+ <script>
+  $(document).ready(function () {
+       $('.{{product.serial_number}}').qrcode({ text:{{product.serial_number}}, size: 50});
+  });
+
+ </script>
+    {% endfor %}
+{% endblock script %}
